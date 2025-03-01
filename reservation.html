@@ -90,12 +90,7 @@ Bootstrap 5 HTML CSS Template
                             <div class="booking-form-wrap">
                                 <div class="row">
                                     <div class="col-lg-7 col-12 p-0">
-                                        <form class="custom-form booking-form" action="https://formsubmit.co/56865844" method="POST" role="form">
-                                            <!-- Campos ocultos para el envío del formulario -->
-                                            <input type="hidden" name="_subject" value="Nueva Reservación - Aero Café">
-                                            <input type="hidden" name="_template" value="table">
-                                            <!-- Tu número de teléfono (oculto) -->
-                                            <input type="hidden" name="restaurant_phone" value="">
+                                        <form class="custom-form booking-form" id="reservationForm" onsubmit="sendWhatsApp(event)" role="form">
                                             
                                             <div class="text-center mb-4 pb-lg-2">
                                                 <em class="text-white">Llena este formulario para reservar</em>
@@ -110,11 +105,11 @@ Bootstrap 5 HTML CSS Template
                                                     </div>
 
                                                     <div class="col-lg-6 col-12">
-                                                        <input type="tel" class="form-control" name="telefono" placeholder="(53)56865844" required="">
+                                                        <input type="tel" class="form-control" name="telefono" id="booking-form-phone" placeholder="(53)56865844" required="">
                                                     </div>
 
                                                     <div class="col-lg-6 col-12">
-                                                        <input class="form-control" type="time" name="hora" value="18:30">
+                                                        <input class="form-control" type="time" name="hora" id="booking-form-time" value="18:30">
                                                     </div>
 
                                                     <div class="col-lg-6 col-12">
@@ -174,7 +169,7 @@ Bootstrap 5 HTML CSS Template
                                     </li>
 
                                     <li class="social-icon-item">
-                                        <a href="#" class="social-icon-link bi-whatsapp">
+                                        <a href="https://wa.me/5356865844" target="_blank" class="social-icon-link bi-whatsapp">
                                         </a>
                                     </li>
                                 </ul>
@@ -185,7 +180,7 @@ Bootstrap 5 HTML CSS Template
 
                                 <p class="d-flex mb-1">
                                     <strong class="me-2">Teléfono</strong>
-                                    <a href="tel: 56865844" class="site-footer-link">
+                                    <a href="tel:+5356865844" class="site-footer-link">
                                         (53)
                                         56865844
                                     </a>
@@ -229,5 +224,40 @@ Bootstrap 5 HTML CSS Template
         <script src="js/vegas.min.js"></script>
         <script src="js/custom.js"></script>
 
+        <!-- Script para manejo de envío a WhatsApp -->
+        <script>
+            function sendWhatsApp(event) {
+                event.preventDefault();
+                
+                // Obtener los valores de los campos
+                const nombre = document.getElementById('booking-form-name').value;
+                const telefono = document.getElementById('booking-form-phone').value;
+                const hora = document.getElementById('booking-form-time').value;
+                const fecha = document.getElementById('booking-form-date').value;
+                const personas = document.getElementById('booking-form-number').value;
+                const comentario = document.getElementById('booking-form-message').value;
+                
+                // Número de WhatsApp del restaurante (con formato internacional)
+                const restaurantWhatsApp = "5356865844";
+                
+                // Crear mensaje para WhatsApp
+                let mensaje = `*Reserva en Aero Café*%0A%0A`;
+                mensaje += `*Nombre:* ${nombre}%0A`;
+                mensaje += `*Teléfono:* ${telefono}%0A`;
+                mensaje += `*Fecha:* ${fecha}%0A`;
+                mensaje += `*Hora:* ${hora}%0A`;
+                mensaje += `*Personas:* ${personas}%0A`;
+                
+                if (comentario) {
+                    mensaje += `*Comentario:* ${comentario}%0A`;
+                }
+                
+                // Crear URL de WhatsApp
+                const whatsappURL = `https://wa.me/${restaurantWhatsApp}?text=${mensaje}`;
+                
+                // Redirigir a WhatsApp
+                window.open(whatsappURL, '_blank');
+            }
+        </script>
     </body>
 </html>
